@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>文章列表--layui后台管理模板 2.0</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="../../../layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="../../../css/public.css" media="all" />
+	</head>
+
+	<body class="childrenBody">
+		<form class="layui-form" style="width:80%;">
+			<input type="text" class="layui-input sid" lay-verify="sid" style="display:none"/>
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<label class="layui-form-label">员工姓名</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input sname" lay-verify="sname" placeholder="请输入员工姓名">
+				</div>
+			</div>
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<label class="layui-form-label">员工年龄</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input sage" lay-verify="sage" placeholder="请输入员工年龄">
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="magb15 layui-col-md4 layui-col-xs12">
+					<label class="layui-form-label">隐藏年龄</label>
+					<div class="layui-input-block hideage">
+						<input type="radio" name="hideage" value="0" title="隐藏" checked>
+						<input type="radio" name="hideage" value="1" title="不隐藏">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<label class="layui-form-label">身份证号</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input sidcarrd" lay-verify="sidcarrd" placeholder="请输入员工身份证">
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="magb15 layui-col-md4 layui-col-xs12">
+					<label class="layui-form-label">隐藏身份证</label>
+					<div class="layui-input-block hideidcard">
+						<input type="radio" name="hideidcard" value="0" title="隐藏" checked>
+						<input type="radio" name="hideidcard" value="1" title="不隐藏">
+					</div>
+				</div>
+			</div>
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<div class="layui-center">
+					<a class="layui-btn layui-btn-sm" lay-filter="addStaff" lay-submit><i class="layui-icon">&#xe609;</i>发布</a>
+				</div>
+			</div>
+		</form>
+		<script type="text/javascript" src="../../../js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="../../../js/public.js"></script>
+		<script type="text/javascript" src="../../../layui/layui.js"></script>
+		<script type="text/javascript" src="staffAdd.js"></script>
+	</body>
+
+</html>

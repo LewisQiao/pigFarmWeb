@@ -1,0 +1,190 @@
+{
+	"contentManagement": [
+		{
+			"title": "饲料管理",
+			"icon": "&#xe647;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "饲料进库",
+					"icon": "&#xe654;",
+					"href": "page/feed/feedList.html",
+					"spread": false
+				},
+				{
+					"title": "饲料使用",
+					"icon": "&#x1006;",
+					"href": "page/useFeed/useFeedList.html",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "生猪管理",
+			"icon": "&#xe653;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "猪仔入库",
+					"icon": "&#xe61c;",
+					"href": "page/pigfeed/pigfeedList.html",
+					"spread": false
+				},
+				{
+					"title": "生猪死淘",
+					"icon": "&#xe64e;",
+					"href": "page/login/login.html",
+					"spread": false
+				},
+				{
+					"title": "生猪异常",
+					"icon": "&#xe691;",
+					"href": "page/login/login.html",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "数据管理",
+			"icon": "&#xe621;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "材料入库",
+					"icon": "&#xe60f;",
+					"href": "page/404.html",
+					"spread": false
+				},
+				{
+					"title": "材料使用记录",
+					"icon": "&#xe60e;",
+					"href": "page/login/login.html",
+					"spread": false
+				},
+				{
+					"title": "日常支出",
+					"icon": "&#xe616",
+					"href": "page/login/login.html",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "数据统计",
+			"icon": "&#xe629;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "支出统计",
+					"icon": "&#xe60a;",
+					"href": "page/404.html",
+					"spread": false
+				},
+				{
+					"title": "猪仔统计",
+					"icon": "&#xe60d;",
+					"href": "page/login/login.html",
+					"spread": false
+				},
+				{
+					"title": "材料统计",
+					"icon": "&#xe62c;",
+					"href": "page/login/login.html",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "账户管理",
+			"icon": "&#xe613;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "角色管理",
+					"icon": "&#xe60c;",
+					"href": "page/404.html",
+					"spread": false
+				},
+				{
+					"title": "权限管理",
+					"icon": "&#xe673;",
+					"href": "page/login/login.html",
+					"spread": false
+				},
+				{
+					"title": "账户管理",
+					"icon": "&#xe60c;",
+					"href": "page/user/userList.html",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "薪资管理",
+			"icon": "&#xe65e;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "工资记录",
+					"icon": "&#xe6b2;",
+					"href": "page/404.html",
+					"spread": false
+				},
+				{
+					"title": "工资计算",
+					"icon": "&#xe642;",
+					"href": "page/login/login.html",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "员工管理",
+			"icon": "&#xe770;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "员工列表",
+					"icon": "&#xe6af;",
+					"href": "page/staff/staffList.html",
+					"spread": false
+				},
+				{
+					"title": "离职员工",
+					"icon": "&#xe69c;",
+					"href": "page/login/login.html",
+					"spread": false
+				}
+			]
+		},
+		{
+			"title": "系统配置",
+			"icon": "&#xe614;",
+			"href": "",
+			"spread": false,
+			"children": [
+				{
+					"title": "猪场管理",
+					"icon": "&#xe6b2;",
+					"href": "page/pigsite/pigsiteList.html",
+					"spread": false
+				},
+				{
+					"title": "工资计算",
+					"icon": "&#xe642;",
+					"href": "page/login/login.html",
+					"spread": false
+				}
+			]
+		}
+	]
+}
+
+

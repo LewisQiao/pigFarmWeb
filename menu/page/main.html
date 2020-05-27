@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>首页</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="../../css/public.css" media="all" />
+	</head>
+
+	<body class="childrenBody">
+		<blockquote class="layui-elem-quote layui-bg-green">
+			<div id="nowTime"></div>
+		</blockquote>
+		<div class="layui-row layui-col-space10 panel_box">
+			<div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-md3 layui-col-lg4">
+				<a href="javascript:;">
+					<div class="panel_icon layui-bg-orange">
+						<i class="layui-anim layui-icon" data-icon="&#xe613;">&#xe613;</i>
+					</div>
+					<div class="panel_word userAll">
+						<span id="userCount"></span>
+						<em>员工总数</em>
+					</div>
+				</a>
+			</div>
+			<div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-md3 layui-col-lg4">
+				<div class="panel_icon layui-bg-cyan">
+					<i class="layui-anim layui-icon" data-icon="&#xe857;">&#xe857;</i>
+				</div>
+				<div class="panel_word outIcons">
+					<span>35</span>
+					<em>今日支出</em>
+				</div>
+			</div>
+			<div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-md3 layui-col-lg4">
+				<div class="panel_icon layui-bg-blue">
+					<i class="layui-anim layui-icon" data-icon="&#xe60e;">&#xe60e;</i>
+				</div>
+				<div class="panel_word">
+					<span class="loginTime" id="loginTime"></span>
+					<cite>上次登录时间</cite>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row layui-col-space10">
+			<div class="layui-col-lg6 layui-col-lg12 layui-col-md12">
+				<blockquote class="layui-elem-quote title">近日支出</blockquote>
+				<div id="container" style=" width: 750px;height: 400px;padding-left: 120px;"></div>
+			</div>
+		</div>
+		<script type="text/javascript" src="../../js/jquery-1.10.2.min.js" ></script>
+		<script type="text/javascript" src="../../js/public.js" ></script>
+		<script type="text/javascript" src="../../layui/layui.js"></script>
+		<script type="text/javascript" src="../../js/main.js"></script>
+		<script type="text/javascript" src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts.min.js"></script>
+		<script type="text/javascript">
+			var dom = document.getElementById("container");
+			var myChart = echarts.init(dom);
+			var app = {};
+			option = null;
+			var namedate = ['2/4', '小红', '小张', '小潘', '小陆', '小洪', '大张'];
+			var numdate = [60, 70, 80, 50, 70, 90, 100];
+			var colorlist = [];
+			numdate.forEach(element => {
+				if(element < 60) {
+					colorlist.push(["#fc7095", "#fa8466"])
+				} else if(element >= 60 && element < 90) {
+					colorlist.push(["#386ffd", "#74b3ff"])
+				} else {
+					colorlist.push(["#1aa8ce", "#49d3c6"])
+				}
+			});
+			option = {
+
+				tooltip: {
+					trigger: 'axis',
+					axisPointer: { // 坐标轴指示器，坐标轴触发有效
+						type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+					}
+				},
+				grid: {
+					left: '3%',
+					right: '4%',
+					bottom: '3%',
+					containLabel: true
+				},
+				xAxis: [{
+					type: 'category',
+					data: namedate,
+					axisTick: {
+						alignWithLabel: true
+					},
+					axisLine: {
+						lineStyle: {
+							color: "#4dd1c4",
+							width: 1
+						}
+					},
+					axisLabel: {
+						show: true,
+						textStyle: {
+							color: '#999'
+						}
+					}
+				}],
+				yAxis: [{
+					type: 'value',
+					axisLabel: {
+						formatter: '{value}元',
+						show: true,
+						textStyle: {
+							color: '#999'
+						}
+					},
+					axisLine: {
+						lineStyle: {
+							color: "#4dd1c4",
+							width: 1
+						}
+					},
+					splitLine: {
+						show: true,
+						lineStyle: {
+							type: 'dashed',
+							color: '#ddd'
+						}
+					}
+
+				}],
+				series: [{
+					name: '消费金额',
+					type: 'bar',
+					barWidth: '60%',
+					data: numdate,
+					itemStyle: {
+						normal: {
+							// color: new echarts.graphic.LinearGradient(
+							//     0, 0, 0, 1,
+							//     [
+							//         {offset: 1, color: 'red'},
+							//         {offset: 0, color: 'orange'}
+							//     ]
+							// )
+							color: function(params) {
+								// var colorList = colorlist;
+								// return colorList[params.dataIndex];
+								var colorList = colorlist
+
+								var index = params.dataIndex;
+								// if(params.dataIndex >= colorList.length){
+								//         index=params.dataIndex-colorList.length;
+								// }
+								return new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+										offset: 1,
+										color: colorList[index][0]
+									},
+									{
+										offset: 0,
+										color: colorList[index][1]
+									}
+								]);
+
+							}
+						}
+					}
+				}]
+			};;
+			if(option && typeof option === "object") {
+				myChart.setOption(option, true);
+			}
+		</script>
+	</body>
+
+</html>
