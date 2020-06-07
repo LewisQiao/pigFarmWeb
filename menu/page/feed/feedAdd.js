@@ -1,3 +1,7 @@
+var userLoca = parent.$("#user").val();
+var users = storage.getItem(userLoca);
+var user = JSON.parse(users)
+
 layui.use(['form', 'layer', 'layedit', 'laydate', 'upload'], function() {
 	var form = layui.form
 	layer = parent.layer === undefined ? layui.layer : top.layer,
@@ -6,7 +10,7 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload'], function() {
 		layedit = layui.layedit,
 		laydate = layui.laydate,
 		$ = layui.jquery;
-
+	
 	form.verify({
 		feedName: function(val) {
 			if(val == '') {
@@ -37,23 +41,20 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload'], function() {
 			time: false,
 			shade: 0.8
 		});
-		var storage = window.localStorage;
-		var unumber = storage.getItem("unumber");
-		var pid = storage.getItem("pid");
 		$.post(BASEURL + "/feed/insertOrModifyFeed", {
-			pId:pid,
-			fId:$(".feedId").val(),
+			pId: user.pid,
+			fId: $(".feedId").val(),
 			fName: $(".feedName").val(),
 			fFreight: $(".feedfreight").val(),
 			fTotal: $(".feedcount").val(),
-			uNumber: unumber
+			uNumber: user.unumber
 		}, function(res) {
 			if(res.code == 0) {
 				top.layer.close(index);
 				layer.msg("添加成功");
-				layer.closeAll("iframe");
 				//刷新父页面
 				parent.location.reload();
+				layer.closeAll("iframe");
 			} else {
 				console.log(res)
 				layer.msg("添加" + res.msg);

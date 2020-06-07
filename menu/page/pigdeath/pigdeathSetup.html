@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>设置死淘</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="../../../layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="../../../css/public.css" media="all" />
+	</head>
+
+	<body class="childrenBody">
+		<form class="layui-form linksAdd">
+			<input type="text" class="layui-input tid" lay-verify="tid" style="display:none" />
+			<input type="text" class="layui-input troubleTotal" lay-verify="troubleTotal" style="display:none" />
+			<input type="text" class="layui-input pigstyNo" lay-verify="pigstyNo" style="display:none" />
+			<div class="layui-form-item">
+				<label class="layui-form-label">进库编号</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input pnumber" lay-verify="pnumber" disabled="disabled" placeholder="请输入进库编号" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">死亡数量</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input deathcount" lay-verify="deathcount" placeholder="请输入死亡数量" />
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">死亡原因</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input treason" lay-verify="treason" placeholder="请输入死亡原因" />
+				</div>
+			</div>
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<div class="layui-input-block">
+					<a class="layui-btn layui-btn-sm" lay-filter="addLink" lay-submit><i class="layui-icon">&#xe609;</i>提 交</a>
+				</div>
+			</div>
+		</form>
+		<script type="text/javascript" src="../../../layui/layui.js"></script>
+		<script type="text/javascript" src="../../../js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="../../../js/public.js"></script>
+		<script type="text/javascript" src="pigdeathAdd.js"></script>
+	</body>
+
+</html>

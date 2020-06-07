@@ -1,3 +1,7 @@
+var userLoca = parent.$("#user").val();
+var users = storage.getItem(userLoca);
+var user = JSON.parse(users)
+
 layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function() {
 	var form = layui.form,
 		layer = parent.layer === undefined ? layui.layer : top.layer,
@@ -6,12 +10,10 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function() {
 		laytpl = layui.laytpl,
 		table = layui.table;
 
-	//新闻列表
 	var tableIns = getFeed();
 
 	function getFeed(sname) {
-		var storage = window.localStorage;
-		var pid = storage.getItem("pid");
+		var pid = user.pid;
 		var url = '/feed/getUseFeedRecord?pid=' + pid;
 		if(sname != undefined && sname != "") {
 			url = url + "&uname=" + sname
@@ -153,13 +155,11 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function() {
 
 	//列表操作
 	table.on('tool(feedList)', function(obj) {
-		var storage = window.localStorage;
-		var ulevel = storage.getItem("ulevel");
-		var unumber = storage.getItem("unumber");
+		var ulevel = user.ulevel;
+		var unumber = user.unumber;
 		var layEvent = obj.event,
 			data = obj.data;
 		if(ulevel < 3) {
-			console.log(data)
 			if(layEvent === 'edit') { //编辑
 				addFeed(data);
 			} else if(layEvent === 'del') { //删除
@@ -192,7 +192,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function() {
 						// })
 					});
 				}
-			}else{
+			} else {
 				layer.msg("只能操作自己添加的数据");
 			}
 		}

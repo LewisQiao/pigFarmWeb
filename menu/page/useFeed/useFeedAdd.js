@@ -1,3 +1,7 @@
+var userLoca = parent.$("#user").val();
+var users = storage.getItem(userLoca);
+var user = JSON.parse(users)
+
 layui.use(['form', 'layer', 'layedit', 'laydate', 'upload'], function() {
 	var form = layui.form
 	layer = parent.layer === undefined ? layui.layer : top.layer,
@@ -6,7 +10,7 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload'], function() {
 		layedit = layui.layedit,
 		laydate = layui.laydate,
 		$ = layui.jquery;
-
+	
 	form.verify({
 		useFeedCount: function(val) {
 			if(val == '') {
@@ -38,11 +42,10 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload'], function() {
 			});
 			return false;
 		}
-		var storage = window.localStorage;
-		var unumber = storage.getItem("unumber");
-		var pid = storage.getItem("pid");
+		var unumber = user.unumber;
+		var pid = user.pid;
 		$.post(BASEURL + "/feed/useFeedRecord", {
-			id : $(".id").val(),
+			id: $(".id").val(),
 			pId: pid,
 			fUseFid: $(".feedId").val(),
 			fUserNumber: $(".useFeedCount").val(),
@@ -50,7 +53,6 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload'], function() {
 			uNumber: unumber,
 			fPigsty: $(".usePigsty").val(),
 		}, function(res) {
-			console.log(res)
 			if(res.code == 0) {
 				layer.msg(res.msg);
 				layer.closeAll("iframe");
@@ -67,9 +69,8 @@ layui.use(['form', 'layer', 'layedit', 'laydate', 'upload'], function() {
  * 查询本场可以使用的饲料和本场在职员工
  */
 $(function() {
-	var storage = window.localStorage;
 	$.post(BASEURL + "/feed/getFeedByPid", {
-		pid: storage.getItem("pid")
+		pid: user.pid
 	}, function(res) {
 		var html;
 		if(res.code == 0) {
@@ -82,7 +83,7 @@ $(function() {
 		}
 	}, "json")
 	$.get(BASEURL + "/staff/getStaffByList", {
-		pid: storage.getItem("pid"),
+		pid: user.pid,
 		sstate: 1
 	}, function(res) {
 		var htmls;

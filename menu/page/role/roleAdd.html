@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>管理员列表</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<link rel="stylesheet" href="../../../layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="../../../css/public.css" media="all" />
+	</head>
+
+	<body class="childrenBody">
+		<form class="layui-form" style="width:80%;">
+			<input type="text" class="layui-input pigId" lay-verify="pigId" style="display:none" />
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<label class="layui-form-label">账号</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input userName" lay-verify="required" placeholder="请输入手机号注册">
+				</div>
+			</div>
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<label class="layui-form-label">密码</label>
+				<div class="layui-input-block">
+					<input type="password" class="layui-input userPass" lay-verify="required" placeholder="请输入密码">
+				</div>
+			</div>
+			<div class="layui-form-item layui-row layui-col-xs12">
+				<label class="layui-form-label">真实姓名</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input userZname" lay-verify="required" placeholder="请输入真实姓名">
+				</div>
+			</div>
+			<div class="layui-row">
+				<div class="magb15 layui-col-md4 layui-col-xs12">
+					<label class="layui-form-label">选择权限</label>
+					<div class="layui-input-block">
+						<select name="userGrade" id="userPower" class="userPower" lay-filter="userPower">
+							<option value="">请选择</option>
+							 
+						</select>
+					</div>
+				</div>
+			</div>
+			<hr class="layui-bg-gray" />
+			<div class="layui-center">
+				<a class="layui-btn layui-btn-sm" lay-filter="addUser" lay-submit><i class="layui-icon">&#xe609;</i>发布</a>
+			</div>
+		</form>
+		<script type="text/javascript" src="../../../layui/layui.js"></script>
+		<script type="text/javascript" src="../../../js/public.js" ></script>
+		<script type="text/javascript" src="userAdd.js"></script>
+	</body>
+
+</html>

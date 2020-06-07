@@ -180,16 +180,17 @@
 				console.log(res)
 			    if(res.code == 0){
 			    	var storage=window.localStorage;
-			    	storage.setItem("token", res.data.utoken);
-		        	storage.setItem("uid", res.data.uid);
-		        	storage.setItem("unumber", res.data.unumber);
-		        	storage.setItem("uname", res.data.uname);
-		        	storage.setItem("upower", res.data.upower);
-		        	storage.setItem("ulastLoginTime", res.data.ulastLoginTime);
-		        	storage.setItem("pid", res.data.pid);
-		        	storage.setItem("ulevel", res.data.ulevel);
+			    	storage.setItem(res.data.uaccount, JSON.stringify(res.data));
+//			    	storage.setItem("token", res.data.utoken);
+//		        	storage.setItem("uid", res.data.uid);
+//		        	storage.setItem("unumber", res.data.unumber);
+//		        	storage.setItem("uname", res.data.uname);
+//		        	storage.setItem("upower", res.data.upower);
+//		        	storage.setItem("ulastLoginTime", res.data.ulastLoginTime);
+//		        	storage.setItem("pid", res.data.pid);
+//		        	storage.setItem("ulevel", res.data.ulevel);
 			    	layer.msg('登录成功');
-			    	window.location.href='menu/index.html'; // 在下载数据时,这个方法可以实现不刷新页面
+			    	window.location.href='menu/index.html?uaccount='+res.data.uaccount; // 在下载数据时,这个方法可以实现不刷新页面
 			    }else{
 			    	console.log(res)
 			    	layer.msg(res.msg);

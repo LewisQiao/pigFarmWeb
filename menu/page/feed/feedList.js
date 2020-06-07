@@ -1,3 +1,7 @@
+var userLoca = parent.$("#user").val();
+var users = storage.getItem(userLoca);
+var user = JSON.parse(users)
+
 layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function() {
 	var form = layui.form,
 		layer = parent.layer === undefined ? layui.layer : top.layer,
@@ -10,22 +14,21 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function() {
 	var tableIns = getFeed();
 
 	function getFeed(fname) {
-		var storage = window.localStorage;
-		var pid = storage.getItem("pid");
-		var url = '/feed/getFeedByList?pid=' + pid;
+
+		var url = '/feed/getFeedByList?pid=' + user.pid;
 		if(fname != undefined && fname != "") {
 			url = url + "&fName=" + fname
 		}
-
 		table.render({
 			elem: '#feedList',
 			url: BASEURL + url,
 			cellMinWidth: 95,
 			page: true,
 			limits: [10, 15, 20, 25],
-			limit: 20,
+			limit: 10,
 			height: "full-125",
 			id: "newsListTable",
+
 			cols: [
 				[{
 						type: "checkbox",
@@ -133,6 +136,9 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function() {
 			title: title,
 			type: 2,
 			content: "feedAdd.html",
+			end: function() {
+				$(".layui-laypage-btn").click();
+			},
 			success: function(layero, index) {
 				var body = layui.layer.getChildFrame('body', index);
 				if(edit) {
@@ -191,9 +197,8 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function() {
 
 	//列表操作
 	table.on('tool(feedList)', function(obj) {
-		var storage = window.localStorage;
-		var ulevel = storage.getItem("ulevel");
-		var unumber = storage.getItem("unumber");
+		var ulevel = user.ulevel;
+		var unumber = user.unumber;
 		var layEvent = obj.event,
 			data = obj.data;
 		if(ulevel < 3) {
@@ -229,7 +234,7 @@ layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function() {
 						// })
 					});
 				}
-			}else{
+			} else {
 				layer.msg("只能操作自己添加的数据");
 			}
 		}

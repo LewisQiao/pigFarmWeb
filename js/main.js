@@ -27,54 +27,64 @@ function getLangDate() {
 }
 
 layui.use(['form', 'laydate', 'element', 'layer', 'jquery'], function() {
-		var form = layui.form,
-			layer = parent.layer === undefined ? layui.layer : top.layer,
-			element = layui.element;
-		$ = layui.jquery;
-		//上次登录时间【此处应该从接口获取，实际使用中请自行更换】
-		//icon动画
-		$(".panel a").hover(function() {
-			$(this).find(".layui-anim").addClass("layui-anim-scaleSpring");
-		}, function() {
-			$(this).find(".layui-anim").removeClass("layui-anim-scaleSpring");
-		})
-		$(".panel a").click(function() {
-			parent.addTab($(this));
-		})
-
-		//填充数据方法
-		function fillParameter(data) {
-			//判断字段数据是否存在
-			function nullData(data) {
-				if(data == '' || data == "undefined") {
-					return "未定义";
-				} else {
-					return data;
-				}
-			}
-			$(".version").text(nullData(data.version)); //当前版本
-			$(".author").text(nullData(data.author)); //开发作者
-			$(".homePage").text(nullData(data.homePage)); //网站首页
-			$(".server").text(nullData(data.server)); //服务器环境
-			$(".dataBase").text(nullData(data.dataBase)); //数据库版本
-			$(".maxUpload").text(nullData(data.maxUpload)); //最大上传限制
-			$(".userRights").text(nullData(data.userRights)); //当前用户权限
-		}
+	var form = layui.form,
+		layer = parent.layer === undefined ? layui.layer : top.layer,
+		element = layui.element;
+	$ = layui.jquery;
+	//上次登录时间【此处应该从接口获取，实际使用中请自行更换】
+	//icon动画
+	$(".panel a").hover(function() {
+		$(this).find(".layui-anim").addClass("layui-anim-scaleSpring");
+	}, function() {
+		$(this).find(".layui-anim").removeClass("layui-anim-scaleSpring");
+	})
+	$(".panel a").click(function() {
+		parent.addTab($(this));
 	})
 
-	! function() {
-		var storage = window.localStorage;
-		var ulastLoginTime = storage.getItem("ulastLoginTime");
-		$("#loginTime").html(dateFormat("YYYY-mm-dd HH:MM", parseInt(ulastLoginTime)));
-		$.post(BASEURL + "/staff/getStaffCount", {
-			pid: storage.getItem("pid"),
-			ulevel:storage.getItem("ulevel")
-		}, function(res) {
-			console.log(res)
-			if(res.code == 0) {
-				 $("#userCount").html(res.data);
+	//填充数据方法
+	function fillParameter(data) {
+		//判断字段数据是否存在
+		function nullData(data) {
+			if(data == '' || data == "undefined") {
+				return "未定义";
 			} else {
-				$("#userCount").html(0);
+				return data;
 			}
-		}, "json")
-	}()
+		}
+		$(".version").text(nullData(data.version)); //当前版本
+		$(".author").text(nullData(data.author)); //开发作者
+		$(".homePage").text(nullData(data.homePage)); //网站首页
+		$(".server").text(nullData(data.server)); //服务器环境
+		$(".dataBase").text(nullData(data.dataBase)); //数据库版本
+		$(".maxUpload").text(nullData(data.maxUpload)); //最大上传限制
+		$(".userRights").text(nullData(data.userRights)); //当前用户权限
+	}
+})
+
+var userLoca = parent.$("#user").val();
+var users = storage.getItem(userLoca);
+var user = JSON.parse(users)
+! function() {
+	var ulastLoginTime = user.ulastLoginTime;
+	$("#loginTime").html(dateFormat("YYYY-mm-dd HH:MM", ulastLoginTime));
+	$.post(BASEURL + "/staff/getStaffCount", {
+		pid: user.pid,
+		ulevel: user.ulevel
+	}, function(res) {
+		if(res.code == 0) {
+			$("#userCount").html(res.data);
+		} else {
+			$("#userCount").html(0);
+		}
+	}, "json")
+	$.post(BASEURL + "/dailyPay/getExpendPayCount", {
+		pid: user.pid
+	}, function(res) {
+		if(res.code == 0) {
+			$("#eMoney").html(res.msg);
+		} else {
+			$("#eMoney").html("0");
+		}
+	}, "json")
+}()

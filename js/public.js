@@ -1,6 +1,20 @@
-const  BASEURL  =  "http://127.0.0.1:8085";
-//const BASEURL="http://abcd.yuandacloud.com"
-var storage = window.localStorage;
+//const  BASEURL  =  "http://127.0.0.1:8085";
+const BASEURL="http://39.97.254.1:8005"
+
+var storage = window.localStorage; 
+
+function GetRequest() {
+	var theRequest = new Object();
+	if(url.indexOf("?") != -1) {
+		var str = url.substr(1);
+		strs = str.split("&");
+		for(var i = 0; i < strs.length; i++) {
+			theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+		}
+	}
+	return theRequest;
+}
+
 function _post(url, params = {}) {
 	var index = layer.load(1, {
 		shade: [0.1, '#fff'] //0.1透明度的白色背景

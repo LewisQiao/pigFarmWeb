@@ -1,4 +1,8 @@
-layui.use(['form', 'layer', 'table', 'laytpl'], function() {
+var userLoca = parent.$("#user").val();
+var users = storage.getItem(userLoca);
+var user = JSON.parse(users)
+
+layui.use(['form', 'layer', 'table', 'laydate', 'laytpl'], function() {
 	var form = layui.form,
 		layer = parent.layer === undefined ? layui.layer : top.layer,
 		$ = layui.jquery,
@@ -9,7 +13,7 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 	var tableIns = getPigsite();
 
 	function getPigsite(pnumber) {
-		var url = '/piglet/getPigletByPid?pid=' + storage.getItem("pid");
+		var url = '/piglet/getPigletByPid?pid=' + user.pid;
 		if(pnumber != undefined && pnumber != "") {
 			url = url + "&pnumber=" + pnumber
 		}
@@ -42,10 +46,14 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 					{
 						field: 'pstate',
 						title: '出库状态',
-						minWidth: 100,
+						minWidth: 120,
 						align: 'center',
 						templet: function(d) {
-							return '<input type="checkbox" name="newsTop" lay-filter="newsTop" lay-skin="switch" lay-text="未出库|已出库" ' + d.pstate + '>'
+							if(d.pstate == 0) {
+								return '<input id="pstate,' + d.pid + '" type="checkbox" name="pstate" value="' + d.pstate + '" lay-filter="newsTop" lay-skin="switch" lay-text="已进库|已出库" ' + "checked" + '>'
+							} else {
+								return '<input id="pstate,' + d.pid + '" type="checkbox" name="pstate"  value="' + d.pstate + '" lay-filter="newsTop" lay-skin="switch" lay-text="已进库|已出库" ' + "" + '>'
+							}
 						}
 					},
 					{
@@ -70,6 +78,26 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 							} else {
 								return d.pproblemTotal;
 							}
+						}
+					},
+					{
+						field: 'ptotal',
+						title: '正常数量',
+						align: 'center',
+						templet: function(d) {
+							var pdeathTotal;
+							var pproblemTotal;
+							if(null == d.pdeathTotal) {
+								pdeathTotal = 0;
+							} else {
+								pdeathTotal = d.pdeathTotal;
+							}
+							if(null == d.pproblemTotal) {
+								pproblemTotal = 0;
+							} else {
+								pproblemTotal = d.pproblemTotal;
+							}
+							return d.ptotal - pdeathTotal - pproblemTotal;
 						}
 					},
 					{
@@ -106,19 +134,41 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 
 	//是否置顶
 	form.on('switch(newsTop)', function(data) {
-		var index = layer.msg('修改中，请稍候', {
-			icon: 16,
-			time: false,
-			shade: 0.8
-		});
-		setTimeout(function() {
-			layer.close(index);
-			if(data.elem.checked) {
-				layer.msg("置顶成功！");
-			} else {
-				layer.msg("取消置顶成功！");
-			}
-		}, 500);
+		var arr = data.elem.id.split(",");
+		console.log(data.elem.value)
+		if(data.elem.value != 1) {
+			//询问框
+			layer.confirm('确定该批猪已出库？', {
+				btn: ['确定', '取消'] //按钮
+			}, function() {
+				let state;
+				if(data.elem.checked == false) {
+					state = 1;
+				} else {
+					state = 0;
+				}
+				console.log(state)
+				$.post(BASEURL + "/piglet/addOrModifyPiglet", {
+					pId: arr[1],
+					pState: state
+				}, function(res) {
+					console.log(res)
+					if(res.code == 0) {
+						top.layer.msg("修改成功")
+					} else {
+						data.elem.checked = !data.elem.checked;
+						form.render();
+					}
+				}, "json")
+			}, function() {
+				data.elem.checked = !data.elem.checked;
+				form.render();
+			});
+		} else {
+			data.elem.checked = !data.elem.checked;
+			form.render();
+			top.layer.msg("该批次猪已出库")
+		}
 	})
 
 	//搜索【此功能需要后台配合，所以暂时没有动态效果演示】
@@ -170,7 +220,7 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 
 	//列表操作
 	table.on('tool(pigsiteList)', function(obj) {
-		var ulevel = storage.getItem("ulevel");
+		var ulevel = user.ulevel;
 		var layEvent = obj.event,
 			data = obj.data;
 		if(ulevel < 3) {

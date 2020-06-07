@@ -1,3 +1,7 @@
+var userLoca = parent.$("#user").val();
+var users = storage.getItem(userLoca);
+var user = JSON.parse(users)
+
 layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 	var form = layui.form,
 		layer = parent.layer === undefined ? layui.layer : top.layer,
@@ -109,7 +113,7 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 	//列表操作
 	table.on('tool(pigsiteList)', function(obj) {
 		var storage = window.localStorage;
-		var ulevel = storage.getItem("ulevel");
+		var ulevel = user.ulevel;
 		var layEvent = obj.event,
 			data = obj.data;
 		if(ulevel < 3) {

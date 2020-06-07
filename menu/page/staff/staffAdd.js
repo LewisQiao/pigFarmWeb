@@ -1,3 +1,7 @@
+var userLoca = parent.$("#user").val();
+var users = storage.getItem(userLoca);
+var user = JSON.parse(users)
+
 layui.use(['form', 'layer'], function() {
 	var form = layui.form
 	layer = parent.layer === undefined ? layui.layer : top.layer,
@@ -27,27 +31,26 @@ layui.use(['form', 'layer'], function() {
 		},
 	})
 	form.on("submit(addStaff)", function(data) {
-		 console.log(data.field)
-		 //实际使用时的提交信息
-		 $.post(BASEURL+"/staff/addOrModifyStaff",{
-		 	 sId : $(".sid").val(),
-		     sName : $(".sname").val(),  
-		     sAge : $(".sage").val(),  
-		     sIdNumber : $(".sidcarrd").val(), 
-		     sState : 1,  
-		     sHideAge : data.field.hideage,
-		     sHideIdNumber : data.field.hideidcard,
-		     pId : storage.getItem("pid")
-		 },function(res){
-			if(res.code == 0){
-			    top.layer.msg("发布成功");
-			    layer.closeAll("iframe");
-			    //刷新父页面
-			    parent.location.reload();
-			}else{
+		//实际使用时的提交信息
+		$.post(BASEURL + "/staff/addOrModifyStaff", {
+			sId: $(".sid").val(),
+			sName: $(".sname").val(),
+			sAge: $(".sage").val(),
+			sIdNumber: $(".sidcarrd").val(),
+			sState: 1,
+			sHideAge: data.field.hideage,
+			sHideIdNumber: data.field.hideidcard,
+			pId: user.pid
+		}, function(res) {
+			if(res.code == 0) {
+				top.layer.msg("发布成功");
+				layer.closeAll("iframe");
+				//刷新父页面
+				parent.location.reload();
+			} else {
 				top.layer.msg("发布失败");
 			}
-		 })
+		})
 	})
 
 	//格式化时间

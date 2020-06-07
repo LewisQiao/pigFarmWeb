@@ -1,15 +1,19 @@
+var userLoca = parent.$("#user").val();
+var users = storage.getItem(userLoca);
+var user = JSON.parse(users)
+
 layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 	var form = layui.form,
 		layer = parent.layer === undefined ? layui.layer : top.layer,
 		$ = layui.jquery,
 		laytpl = layui.laytpl,
 		table = layui.table;
-
+		
 	//用户列表
 	var tableIns = table.render({
 		elem: '#userList',
 		//      url : '../../../json/userList.json',
-		url: 'http://127.0.0.1:8085/user/getUserList',
+		url: BASEURL + '/user/getUserList?pid=' + user.pid,
 		cellMinWidth: 95,
 		date: {
 			id: 1
@@ -49,39 +53,34 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 					field: 'ucreateTime',
 					title: '创建时间',
 					align: 'center',
-					templet: 
-					function(d) {
-						return dateFormat("YYYY-mm-dd HH:MM",d.ucreateTime)
+					templet: function(d) {
+						return dateFormat("YYYY-mm-dd HH:MM", d.ucreateTime)
 					}
 				},
 				{
 					field: 'uloginCount',
 					title: '登录次数',
 					align: 'center',
-					templet: 
-						function(d) {
-							if(null != d.uloginCount){
-								return d.uloginCount
-							}
-							else{
-								return 0
-							}
-							 
-						}					
+					templet: function(d) {
+						if(null != d.uloginCount) {
+							return d.uloginCount
+						} else {
+							return 0
+						}
+
+					}
 				},
 				{
 					field: 'ulastLoginTime',
 					title: '上次登录时间',
 					align: 'center',
-					templet: 
-					function(d) {
-						if(null != d.ulastLoginTime){
-							return dateFormat("YYYY-mm-dd HH:MM",d.ulastLoginTime)
-						}
-						else{
+					templet: function(d) {
+						if(null != d.ulastLoginTime) {
+							return dateFormat("YYYY-mm-dd HH:MM", d.ulastLoginTime)
+						} else {
 							return "暂未登录"
 						}
-						 
+
 					}
 				},
 				{
@@ -100,28 +99,6 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 			]
 		]
 	});
-	
-	//时间格式化
-	function dateFormat(fmt, date) {
-		var date = new Date(date);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-		let ret;
-		const opt = {
-			"Y+": date.getFullYear().toString(), // 年
-			"m+": (date.getMonth() + 1).toString(), // 月
-			"d+": date.getDate().toString(), // 日
-			"H+": date.getHours().toString(), // 时
-			"M+": date.getMinutes().toString(), // 分
-			"S+": date.getSeconds().toString() // 秒
-			// 有其他格式化字符需求可以继续添加，必须转化成字符串
-		};
-		for(let k in opt) {
-			ret = new RegExp("(" + k + ")").exec(fmt);
-			if(ret) {
-				fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
-			};
-		};
-		return fmt;
-	}
 
 	//搜索【此功能需要后台配合，所以暂时没有动态效果演示】
 	$(".search_btn").on("click", function() {
@@ -143,9 +120,9 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 	function addUser(edit) {
 		console.log(edit)
 		var title;
-		if(null == edit){
+		if(null == edit) {
 			title = "添加用户"
-		}else{
+		} else {
 			title = "修改用户"
 		}
 		var index = layui.layer.open({
@@ -155,12 +132,10 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 			success: function(layero, index) {
 				var body = layui.layer.getChildFrame('body', index);
 				if(edit) {
-					body.find(".userName").val(edit.uaccount); //登录名
-					body.find(".userEmail").val(edit.userEmail); //邮箱
-					body.find(".userSex input[value=" + edit.userSex + "]").prop("checked", "checked"); //性别
-					body.find(".userGrade").val(edit.userGrade); //会员等级
-					body.find(".userStatus").val(edit.userStatus); //用户状态
-					body.find(".userDesc").text(edit.userDesc); //用户简介
+					body.find(".pigId").val(edit.uid);
+					body.find(".userName").val(edit.uaccount);
+					body.find(".userZname").val(edit.uname);
+					body.find(".userPower").text(edit.upower);
 					form.render();
 				}
 				setTimeout(function() {

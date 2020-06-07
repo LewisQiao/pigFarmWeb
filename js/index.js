@@ -11,7 +11,7 @@ layui.use(['bodyTab', 'form', 'element', 'layer', 'jquery'], function() {
 	layer = parent.layer === undefined ? layui.layer : top.layer;
 	tab = layui.bodyTab({
 		openTabNum: "50", //最大可打开窗口数量
-		url: "../json/navs.json" //获取菜单json地址
+		url: "../json/test.json" //获取菜单json地址
 	});
 
 	//通过顶部菜单获取左侧二三级菜单   注：此处只做演示之用，实际开发中通过接口传参的方式获取导航数据
@@ -136,8 +136,22 @@ function addTab(_this) {
 }
 
 !function(){
-	var storage=window.localStorage;
-	var uname = storage.getItem("uname");
-	$("#userName").html(uname);
-	$("#adminName").html(uname);
+	var storage = window.localStorage;
+	var uname = storage.getItem(GetRequest().uaccount);
+	$("#userName").html(JSON.parse(uname).uname);
+	$("#user").val(GetRequest().uaccount);
+	//$("#adminName").attr("uaccount",GetRequest().uaccount)
+	$("#adminName").html(JSON.parse(uname).uname);
 }()
+function GetRequest() {  
+   var url = location.search; //获取url中"?"符后的字串  
+   var theRequest = new Object();  
+   if (url.indexOf("?") != -1) {  
+      var str = url.substr(1);  
+      strs = str.split("&");  
+      for(var i = 0; i < strs.length; i ++) {  
+         theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);  
+      }  
+   }  
+   return theRequest;  
+} 

@@ -1,4 +1,7 @@
-var storage = window.localStorage;
+var userLoca = parent.$("#user").val();
+var users = storage.getItem(userLoca);
+var user = JSON.parse(users)
+
 layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 	var form = layui.form,
 		layer = parent.layer === undefined ? layui.layer : top.layer,
@@ -9,7 +12,7 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 	//用户列表
 	var tableIns = table.render({
 		elem: '#userList',
-		url: BASEURL+'/staff/getStaffByList?pid='+storage.getItem("pid")+"&sstate=1",
+		url: BASEURL + '/staff/getStaffByList?pid=' + user.pid + "&sstate=1",
 		cellMinWidth: 95,
 		date: {
 			id: 1
@@ -61,9 +64,8 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 					field: 'sentryTime',
 					title: '创建时间',
 					align: 'center',
-					templet: 
-					function(d) {
-						return dateFormat("YYYY-mm-dd HH:MM",d.sentryTime)
+					templet: function(d) {
+						return dateFormat("YYYY-mm-dd HH:MM", d.sentryTime)
 					}
 				},
 				{
@@ -96,9 +98,9 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 	function addStaff(edit) {
 		console.log(edit)
 		var title;
-		if(null == edit){
+		if(null == edit) {
 			title = "添加用户"
-		}else{
+		} else {
 			title = "修改用户"
 		}
 		var index = layui.layer.open({
@@ -111,9 +113,9 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 					body.find(".sid").val(edit.sid);
 					body.find(".sname").val(edit.sname);
 					body.find(".sage").val(edit.sage);
-					body.find(".hideage radio[value=" + edit.shideAge + "]").prop("checked", "checked"); 
+					body.find(".hideage radio[value=" + edit.shideAge + "]").prop("checked", "checked");
 					body.find(".sidcarrd").val(edit.sidNumber);
-					body.find(".hideidcard radio[value=" + edit.shideIdNumber + "]").prop("checked", "checked"); 
+					body.find(".hideidcard radio[value=" + edit.shideIdNumber + "]").prop("checked", "checked");
 					form.render();
 				}
 				setTimeout(function() {
@@ -179,25 +181,26 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 			});
 		}
 	});
-	function deleteStaff(sid){
-		 $.post(BASEURL+"/staff/addOrModifyStaff",{
-		 	 sId : $(".sid").val(),
-		     sName : $(".sname").val(),  
-		     sAge : $(".sage").val(),  
-		     sIdNumber : $(".sidcarrd").val(), 
-		     sState : 1,  
-		     sHideAge : data.field.hideage,
-		     sHideIdNumber : data.field.hideidcard,
-		     pId : storage.getItem("pid")
-		 },function(res){
-			if(res.code == 0){
-			    top.layer.msg("发布成功");
-			    layer.closeAll("iframe");
-			    //刷新父页面
-			    parent.location.reload();
-			}else{
+
+	function deleteStaff(sid) {
+		$.post(BASEURL + "/staff/addOrModifyStaff", {
+			sId: $(".sid").val(),
+			sName: $(".sname").val(),
+			sAge: $(".sage").val(),
+			sIdNumber: $(".sidcarrd").val(),
+			sState: 1,
+			sHideAge: data.field.hideage,
+			sHideIdNumber: data.field.hideidcard,
+			pId: user.pid
+		}, function(res) {
+			if(res.code == 0) {
+				top.layer.msg("发布成功");
+				layer.closeAll("iframe");
+				//刷新父页面
+				parent.location.reload();
+			} else {
 				top.layer.msg("发布失败");
 			}
-		 })
+		})
 	}
 })
