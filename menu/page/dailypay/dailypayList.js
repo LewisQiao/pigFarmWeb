@@ -1,4 +1,4 @@
-var userLoca = parent.$("#user").val();
+var userLoca = parent.layui.$("#user").val();
 var users = storage.getItem(userLoca);
 var user = JSON.parse(users)
 

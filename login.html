@@ -19,7 +19,7 @@
 <script src="js/snow.js"></script>
 <script src="js/jquery.pure.tooltips.js"></script>
 <script src="js/spop.min.js"></script>
-<script type="text/javascript" src="js/public.js" ></script>
+<script type="text/javascript" src="js/publicLogin.js" ></script>
 <script type="text/javascript" src="layer/layer.js" ></script>
 <script>	
 	(function() {
@@ -177,22 +177,13 @@
 //		}
 		else{
 			_post("/login/userLogin",{uAccount:username,uPassword:password}).then(res => {
-				console.log(res)
 			    if(res.code == 0){
 			    	var storage=window.localStorage;
 			    	storage.setItem(res.data.uaccount, JSON.stringify(res.data));
-//			    	storage.setItem("token", res.data.utoken);
-//		        	storage.setItem("uid", res.data.uid);
-//		        	storage.setItem("unumber", res.data.unumber);
-//		        	storage.setItem("uname", res.data.uname);
-//		        	storage.setItem("upower", res.data.upower);
-//		        	storage.setItem("ulastLoginTime", res.data.ulastLoginTime);
-//		        	storage.setItem("pid", res.data.pid);
-//		        	storage.setItem("ulevel", res.data.ulevel);
+			    	//storage.setItem(res.data.uaccount, res.data);
 			    	layer.msg('登录成功');
 			    	window.location.href='menu/index.html?uaccount='+res.data.uaccount; // 在下载数据时,这个方法可以实现不刷新页面
 			    }else{
-			    	console.log(res)
 			    	layer.msg(res.msg);
 			    }
 						
@@ -223,6 +214,17 @@
         	});
 			flag = true;
 		}
+		if(!(/^1[34578]\d{9}$/.test(username))){
+			$.pt({
+        		target: $("#register-username"),
+        		position: 'r',
+        		align: 't',
+        		width: 'auto',
+        		height: 'auto',
+        		content:"手机号格式错误"
+        	});
+			flag = true;
+		}
 		if(password == ""){
 			$.pt({
         		target: $("#register-password"),
@@ -246,25 +248,11 @@
 				flag = true;
 			}
 		}
-		//用户名只能是15位以下的字母或数字
-		var regExp = new RegExp("^[a-zA-Z0-9_]{1,15}$");
-		if(!regExp.test(username)){
-			$.pt({
-        		target: $("#register-username"),
-        		position: 'r',
-        		align: 't',
-        		width: 'auto',
-        		height: 'auto',
-        		content:"用户名必须为15位以下的字母或数字"
-        	});
-			flag = true;
-		}
-		
 		if(flag){
 			return false;
 		}else{
 			//注册
-			_post("/login/useRegister",{uAccount:username,uPassword:password}).then(res => {
+			_post("/login/useRegister",{uAccount:username,uPassword:password,uLevel:3}).then(res => {
 			    if(res.status == 200){
 			    	spop({			
 						template: '<h4 class="spop-title">注册成功</h4>即将于3秒后返回登录',
@@ -286,7 +274,6 @@
 						}
 					});
 			    }else{
-			    	console.log(res)
 			    	layer.msg(res.msg);
 			    }
 						

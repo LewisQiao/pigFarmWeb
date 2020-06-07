@@ -9,7 +9,7 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 		laytpl = layui.laytpl,
 		table = layui.table;
 		
-	//用户列表
+		//用户列表
 	var tableIns = table.render({
 		elem: '#userList',
 		//      url : '../../../json/userList.json',
@@ -118,7 +118,6 @@ layui.use(['form', 'layer', 'table', 'laytpl'], function() {
 
 	//添加用户
 	function addUser(edit) {
-		console.log(edit)
 		var title;
 		if(null == edit) {
 			title = "添加用户"

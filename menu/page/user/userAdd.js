@@ -1,7 +1,6 @@
 var userLoca = parent.parent.$("#user").val();
 var users = storage.getItem(userLoca);
 var user = JSON.parse(users)
-
 layui.use(['form', 'layer'], function() {
 	var form = layui.form
 	layer = parent.layer === undefined ? layui.layer : top.layer,
